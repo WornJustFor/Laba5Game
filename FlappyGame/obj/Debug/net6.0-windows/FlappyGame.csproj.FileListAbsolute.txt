@@ -1,0 +1,17 @@
+C:\Users\User\Desktop\Новая папка\прга учеба\FlappyGame\bin\Debug\net6.0-windows\FlappyGame.exe
+C:\Users\User\Desktop\Новая папка\прга учеба\FlappyGame\bin\Debug\net6.0-windows\FlappyGame.deps.json
+C:\Users\User\Desktop\Новая папка\прга учеба\FlappyGame\bin\Debug\net6.0-windows\FlappyGame.runtimeconfig.json
+C:\Users\User\Desktop\Новая папка\прга учеба\FlappyGame\bin\Debug\net6.0-windows\FlappyGame.dll
+C:\Users\User\Desktop\Новая папка\прга учеба\FlappyGame\bin\Debug\net6.0-windows\FlappyGame.pdb
+C:\Users\User\Desktop\Новая папка\прга учеба\FlappyGame\obj\Debug\net6.0-windows\FlappyGame.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\Новая папка\прга учеба\FlappyGame\obj\Debug\net6.0-windows\FlappyGame.Form1.resources
+C:\Users\User\Desktop\Новая папка\прга учеба\FlappyGame\obj\Debug\net6.0-windows\FlappyGame.csproj.GenerateResource.cache
+C:\Users\User\Desktop\Новая папка\прга учеба\FlappyGame\obj\Debug\net6.0-windows\FlappyGame.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Desktop\Новая папка\прга учеба\FlappyGame\obj\Debug\net6.0-windows\FlappyGame.AssemblyInfoInputs.cache
+C:\Users\User\Desktop\Новая папка\прга учеба\FlappyGame\obj\Debug\net6.0-windows\FlappyGame.AssemblyInfo.cs
+C:\Users\User\Desktop\Новая папка\прга учеба\FlappyGame\obj\Debug\net6.0-windows\FlappyGame.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\Новая папка\прга учеба\FlappyGame\obj\Debug\net6.0-windows\FlappyGame.dll
+C:\Users\User\Desktop\Новая папка\прга учеба\FlappyGame\obj\Debug\net6.0-windows\refint\FlappyGame.dll
+C:\Users\User\Desktop\Новая папка\прга учеба\FlappyGame\obj\Debug\net6.0-windows\FlappyGame.pdb
+C:\Users\User\Desktop\Новая папка\прга учеба\FlappyGame\obj\Debug\net6.0-windows\FlappyGame.genruntimeconfig.cache
+C:\Users\User\Desktop\Новая папка\прга учеба\FlappyGame\obj\Debug\net6.0-windows\ref\FlappyGame.dll

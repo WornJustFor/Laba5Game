@@ -1,5 +1,4 @@
 
-using System.Timers;
 namespace FlappyGame
 {
     public partial class Form1 : Form
@@ -34,8 +33,34 @@ namespace FlappyGame
         }
         private void update(object sender, EventArgs e)
         {
+            
+                if (neco.y > 600)
+                {
+                    neco.isAlive = false;
+                    timer1.Stop();
+                InitPlayer();
+                InitWalls();
+            }
+
+                if (Collide(neco, wall) || Collide(neco, wall2))
+                {
+                    neco.isAlive = false;
+                    timer1.Stop();
+                   
+                }
+
+                if (neco.gravityValue != 0.1f)
+                    neco.gravityValue += 0.005f;
+                gravity += neco.gravityValue;
+                neco.y += gravity;
+
+                if (neco.isAlive)
+                {
+                   //×òî-íèáóäü äëÿ äâèæåíèå èëè óäàëåíèå ñòåí
+                }
+
+                Invalidate();
           
-            Invalidate();
         }
         private bool Collide(Player neco, Walls wall1)
         {

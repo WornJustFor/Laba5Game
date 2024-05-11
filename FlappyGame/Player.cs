@@ -10,7 +10,7 @@ namespace FlappyGame
     {
         public float x;
         public float y;
-
+        string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
         public int size;
         public int score;
 
@@ -19,13 +19,26 @@ namespace FlappyGame
         public Image necoImg;
 
         public bool isAlive;
-
+              
         public Player(int x, int y)
         {
-            necoImg = new Bitmap("C:\\Users\\User\\Desktop\\Новая папка\\прга учеба\\FlappyGame\\Arts\\necoarc.jpg");
+           
+            string projectDirectory = Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(baseDirectory).FullName).FullName).FullName).FullName;
+            string imagePath = Path.Combine(projectDirectory, "Arts", "necoarc.jpg");
+
+            if (File.Exists(imagePath))
+            {
+                necoImg = new Bitmap(imagePath);
+            }
+            else
+            {
+                MessageBox.Show("File not found: " + imagePath);
+            }
+
+            // necoImg = new Bitmap("Arts\\necoarc.jpg");
             this.x = x;
             this.y = y;
-            gravityValue = 0.2f;
+            gravityValue = 0.1f;
             size = 50;            
             isAlive = true;
             score = 0;

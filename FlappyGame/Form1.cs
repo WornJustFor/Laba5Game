@@ -45,7 +45,7 @@ namespace FlappyGame
                     timer1.Stop();
                 InitPlayer();
                 InitWalls();
-            }
+                }
 
                 if (Collide(neco, wall) || Collide(neco, wall2))
                 {
@@ -76,15 +76,21 @@ namespace FlappyGame
         private void CreateNewWall()
         {
             
+               
+            
             if (wall.x < neco.x - 100)
             {
                 
                 Random r = new Random();
                 int y1;
                 y1 = r.Next(-200, 000);
+                wall.wallsImg.Dispose();
+                wall2.wallsImg.Dispose();
                 wall = new Walls(500, y1, true);
                 wall2 = new Walls(500, y1 + 400);
-               // this.Text = "NecoScore: " + ++neco.score;
+               
+
+                // this.Text = "NecoScore: " + ++neco.score;
             }
         }
         private bool Collide(Player neco, Walls wall1)

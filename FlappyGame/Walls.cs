@@ -19,7 +19,7 @@ namespace FlappyGame
 
         public Image wallsImg;
 
-        public bool isAlive;
+       
 
         public Walls(int x, int y, bool isRotatedImage = false)
         {

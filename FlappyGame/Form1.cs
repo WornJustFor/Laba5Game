@@ -1,9 +1,10 @@
 
+using System.Timers;
 namespace FlappyGame
 {
     public partial class Form1 : Form
     {
-        System.Windows.Forms.Timer timer1 = new System.Windows.Forms.Timer();
+      
         Player neco;
         Walls wall;
         Walls wall2;
@@ -15,21 +16,25 @@ namespace FlappyGame
             InitPlayer();
             InitWalls();
             Invalidate();
-           
+            timer1.Interval = 10;
+            timer1.Tick += new EventHandler(update);
+            timer1.Start();
+
         }
 
         public void InitPlayer()
         {
-            neco = new Player(200, 200);
-            timer1.Interval = 10;
-            timer1.Tick += new EventHandler(update);
+            neco = new Player(Left+50, 200);
+           
         }
         public void InitWalls()
         {
-            wall = new Walls(300, 300);
-            wall2 = new Walls(400, Top);
-            timer1.Interval = 10;
-            timer1.Tick += new EventHandler(update);
+            Random rPosy = new Random();           
+            int Posy;          
+            Posy = rPosy.Next(-200, 000);
+            wall = new Walls(300, Posy,true);
+            wall2 = new Walls(400, Posy+400);
+           
         }
         private void update(object sender, EventArgs e)
         {
@@ -56,11 +61,31 @@ namespace FlappyGame
 
                 if (neco.isAlive)
                 {
-                   //×òî-íèáóäü äëÿ äâèæåíèå èëè óäàëåíèå ñòåí
+                MoveWalls();
                 }
 
                 Invalidate();
           
+        }
+        private void MoveWalls()
+        {
+            wall.x -= 2;
+            wall2.x -= 2;
+            CreateNewWall();
+        }
+        private void CreateNewWall()
+        {
+            
+            if (wall.x < neco.x - 100)
+            {
+                
+                Random r = new Random();
+                int y1;
+                y1 = r.Next(-200, 000);
+                wall = new Walls(500, y1, true);
+                wall2 = new Walls(500, y1 + 400);
+               // this.Text = "NecoScore: " + ++neco.score;
+            }
         }
         private bool Collide(Player neco, Walls wall1)
         {
@@ -83,6 +108,15 @@ namespace FlappyGame
             graphic.DrawImage(neco.necoImg, neco.x, neco.y, neco.size, neco.size);
             graphic.DrawImage(wall.wallsImg,wall.x,wall.y, wall.sizeX, wall.sizeY);
             graphic.DrawImage(wall2.wallsImg, wall2.x, wall2.y, wall2.sizeX, wall2.sizeY);
+        }
+
+        private void PlayClick(object sender, EventArgs e)
+        {
+            if (neco.isAlive)
+            {
+                gravity = 0;
+                neco.gravityValue = -0.120f;
+            }
         }
     }
 }

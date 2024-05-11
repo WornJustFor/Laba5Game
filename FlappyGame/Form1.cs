@@ -37,6 +37,21 @@ namespace FlappyGame
           
             Invalidate();
         }
+        private bool Collide(Player neco, Walls wall1)
+        {
+            PointF delta = new PointF();
+            delta.X = (neco.x + neco.size / 2) - (wall1.x + wall1.sizeX / 2);
+            delta.Y = (neco.y + neco.size / 2) - (wall1.y + wall1.sizeY / 2);
+            if (Math.Abs(delta.X) <= neco.size / 2 + wall1.sizeX / 2)
+            {
+                if (Math.Abs(delta.Y) <= neco.size / 2 + wall1.sizeY / 2)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         private void OnPaint(object sender, PaintEventArgs e)
         {
             Graphics graphic = e.Graphics;

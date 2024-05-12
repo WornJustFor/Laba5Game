@@ -24,7 +24,7 @@ namespace FlappyGame
         {
            
             string projectDirectory = Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(baseDirectory).FullName).FullName).FullName).FullName;
-            string imagePath = Path.Combine(projectDirectory, "Arts", "necoarc.jpg");
+            string imagePath = Path.Combine(projectDirectory, "Arts", "necoarc.png");
 
             if (File.Exists(imagePath))
             {
@@ -35,11 +35,11 @@ namespace FlappyGame
                 MessageBox.Show("File not found: " + imagePath);
             }
 
-            // necoImg = new Bitmap("Arts\\necoarc.jpg");
+            
             this.x = x;
             this.y = y;
             gravityValue = 0.1f;
-            size = 50;            
+            size = 45;            
             isAlive = true;
             score = 0;
         }

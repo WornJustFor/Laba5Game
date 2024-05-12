@@ -23,7 +23,7 @@ namespace FlappyGame
         {
                        
             string projectDirectory = Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(baseDirectory).FullName).FullName).FullName).FullName;
-            string imagePath = Path.Combine(projectDirectory, "Arts", "necoarc.jpg");
+            string imagePath = Path.Combine(projectDirectory, "Arts", "1.png");
             if (File.Exists(imagePath))
             {
                 wallsImg = new Bitmap(imagePath);

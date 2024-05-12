@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,19 +9,19 @@ namespace FlappyGame
 {
     internal class Walls
     {
-        public  float x;
-        public  float y;
-       
-        public  int sizeX;
-        public  int sizeY;
-       
+        public float x;
+        public float y;
 
+        public int sizeX;
+        public int sizeY;
+
+        public bool scoreCounted = false;
         public Image wallsImg;
         string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
         public Walls(int x, int y, bool isRotatedImage = false)
         {
-                       
+
             string projectDirectory = Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(baseDirectory).FullName).FullName).FullName).FullName;
             string imagePath = Path.Combine(projectDirectory, "Arts", "1.png");
             if (File.Exists(imagePath))
@@ -34,12 +34,13 @@ namespace FlappyGame
             }
             this.x = x;
             this.y = y;
-            sizeX = 50;     
+            sizeX = 50;
             sizeY = 200;
             if (isRotatedImage) { wallsImg.RotateFlip(RotateFlipType.Rotate180FlipX); }
 
         }
-   
+
     }
 }
+
 

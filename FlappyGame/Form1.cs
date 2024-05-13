@@ -4,7 +4,7 @@ namespace FlappyGame
 {
     public partial class Form1 : Form
     {
-        int dCounter=0;
+       
         Player neco;
         Walls wall;
         Walls wall2;       
@@ -38,7 +38,7 @@ namespace FlappyGame
             wall = new Walls(300, Posy,true);
             wall2 = new Walls(400, Posy+400);
          
-            dori = new Dori(300, 200);
+            dori = new Dori(Posy+100, 200);
 
         }
         private void update(object sender, EventArgs e)
@@ -119,7 +119,7 @@ namespace FlappyGame
                 wall2 = new Walls(500, y1 + 400);
              
                 this.Text = "NecoScore: " + ++neco.score;
-                 dCounter++;
+                
             }
         }
        
@@ -131,8 +131,8 @@ namespace FlappyGame
                  Random dx = new Random();
                int x2;
                 int y2;
-                y2 = dy.Next(-200, 000);
-                x2 = dx.Next(Left + 100, 500 );
+                y2 = dy.Next(Top-200, 500);
+                x2 = dx.Next(Left + 100, Right );
                 dori.DoriImg.Dispose();
 
                 dori = new Dori(x2, y2);

@@ -1,63 +1,103 @@
-
+using System.Diagnostics;//Диагностика убрать
 using System.Timers;
 namespace FlappyGame
 {
     public partial class Form1 : Form
     {
        
-        Player neco;
-        Walls wall;
-        Walls wall2;       
+        private Label NecoLabel;
+        internal int nMovementSpeed = 2;
+        List<Walls> walls = new List<Walls>();      
+        
+        Player neco;            
         Dori dori;
         float gravity;
+       
+
+        private string CheckImg()
+        {
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string projectDirectory = Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(baseDirectory).FullName).FullName).FullName).FullName;
+            string imagePath = Path.Combine(projectDirectory, "Arts", "nebo.jpg");
+            //MessageBox.Show( imagePath);
+            return imagePath;
+        }
+        private async Task<Bitmap> LoadImageAsync(string filePath)
+        {
+            return await Task.Run(() => new Bitmap(filePath));
+        }
+
+       
+        public async void InitBackImg()
+        {
+            try
+            {
+                string imagePath = CheckImg(); 
+                Bitmap backgroundImage = await LoadImageAsync(imagePath);
+                this.BackgroundImage = backgroundImage; 
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при загрузке изображения: " + ex.Message);
+            }
+        }
+
         public Form1()
         {
             InitializeComponent();
-            this.DoubleBuffered=true;
+           // string ImgPath = CheckImg();
+            this.DoubleBuffered = true;
+            //InitBackImg();
+            //this.BackgroundImage = InitBackImg();
+            InitBackImg();
+            this.BackgroundImageLayout=ImageLayout.Center;
+
+
             InitPlayer();
             InitWalls();
+            InitDori();
             Invalidate();
-            timer1.Interval = 10;
+            timer1.Interval = 5;
             timer1.Tick += new EventHandler(update);
             timer1.Start();
-           
+            
+            NecoLabel = new Label { Location = new System.Drawing.Point(10, 10), Text = "NecoScore: 0" };
+            this.Controls.Add(NecoLabel);
+            
         }
+
 
         public void InitPlayer()
         {
             neco = new Player(Left+50, 200);
-            
-          
+              
            
         }
         public void InitWalls()
         {
-            Random rPosy = new Random();           
-            int Posy;          
-            Posy = rPosy.Next(-200, 000);
-            wall = new Walls(300, Posy,true);
-            wall2 = new Walls(400, Posy+400);
-         
-            dori = new Dori(Posy+100, 200);
+
+            CreateNewWall();
+
+
+
 
         }
+        public void InitDori() {
+            Random rPosy = new Random();
+            int Posy = rPosy.Next(-200, 000);
+            dori = new Dori(Posy + 100, 200); }
         private void update(object sender, EventArgs e)
         {
             
-                if (neco.y > 600)
+                if (neco.y > 600 || !neco.isAlive || CheckCollisions())
                 {
-                    neco.isAlive = false;
+                    neco.isAlive = false;                
                     timer1.Stop();
                 InitPlayer();
                 InitWalls();
                 }
 
-                if (Collide(neco, wall) || Collide(neco, wall2))
-                {
-                    neco.isAlive = false;
-                    timer1.Stop();
-
-            }
+             
             if (CollideDori(neco, dori))
             {
 
@@ -83,17 +123,37 @@ namespace FlappyGame
                 Invalidate();
           
         }
+   
         private void MoveWalls()
         {
-            wall.x -= 2;
-            wall2.x -= 2;
-          
-            CreateNewWall();
+            int spacingX = 300;
+            foreach (var wall in walls)
+            {
+                wall.x -= nMovementSpeed;
+
+                if (wall.x + wall.width < neco.x && !wall.scoreCounted)
+                {
+                    neco.score += 1;
+                    wall.scoreCounted = true;
+                }
+
+                if (wall.x < -wall.width)
+                {
+                    wall.x = walls.Max(w => w.x) + spacingX;
+                    Random rand = new Random();
+                    wall.heightTop = rand.Next(50, this.Height - 300);
+                    wall.heightBottom = this.Height - wall.heightTop - 150;
+                    wall.scoreCounted = false;
+                }
+            }
+            this.Text = "NecoScore: " + neco.score;
         }
-    
+
+
+
         private void MoveDori()
         {
-            dori.x -= 2;
+            dori.x -= nMovementSpeed;
 
             if (dori.x < -dori.sizeDori)
             {
@@ -102,61 +162,72 @@ namespace FlappyGame
                 
             }
         }
-        private void CreateNewWall()
+        
+            private void CreateNewWall()
         {
             
-               
-            
-            if (wall.x < neco.x - 100)
+            Random r = new Random();
+            int initialX = 300;
+            int spacingX = 300; 
+
+            walls.Clear();
+            for (int i = 0; i < 5; i++)
             {
-                
-                Random r = new Random();
-                int y1;
-                y1 = r.Next(-200, 000);
-                wall.wallsImg.Dispose();
-                wall2.wallsImg.Dispose();             
-                wall = new Walls(500, y1, true);
-                wall2 = new Walls(500, y1 + 400);
-             
-                this.Text = "NecoScore: " + ++neco.score;
-                
+                Walls newWall = new Walls(initialX + i * spacingX, this.Height);
+                walls.Add(newWall);
             }
         }
+
        
+
         private void CreateNewDori()
         {
-            if (timer2.Enabled) return;
-            
-                Random dy = new Random();
-                 Random dx = new Random();
-               int x2;
-                int y2;
-                y2 = dy.Next(Top-200, 500);
-                x2 = dx.Next(Left + 100, Right );
+           
+            int x2;
+            int y2;            
+            Random dy = new Random();
+            Random dx = new Random();
+
+           
+                y2 = dy.Next(Top - 200, 500);
+                x2 = dx.Next(Left + 100, Right);
+              
                 dori.DoriImg.Dispose();
-
-                dori = new Dori(x2, y2);
-
                 
+                dori = new Dori(x2, y2);
+             
+             
+                        
                 this.Text = "NecoScore: " + neco.score;
                 
             
         }
-        private bool Collide(Player neco, Walls wall1)
+       
+
+        private bool Collide(Player neco, Walls wall)
         {
-            PointF delta = new PointF();
-            delta.X = (neco.x + neco.size / 2) - (wall1.x + wall1.sizeX / 2);
-            delta.Y = (neco.y + neco.size / 2) - (wall1.y + wall1.sizeY / 2);
-            if (Math.Abs(delta.X) <= neco.size / 2 + wall1.sizeX / 2)
+           
+            bool collideTop = neco.y < wall.heightTop && neco.x + neco.size > wall.x && neco.x < wall.x + wall.width;
+
+            
+            bool collideBottom = neco.y + neco.size > this.Height - wall.heightBottom && neco.x + neco.size > wall.x && neco.x < wall.x + wall.width;
+
+            return collideTop || collideBottom;
+        }
+        private bool CheckCollisions()
+        {
+            foreach (var wall in walls)
             {
-                if (Math.Abs(delta.Y) <= neco.size / 2 + wall1.sizeY / 2)
+                if (Collide(neco, wall))
                 {
+                    neco.isAlive = false;
+                    timer1.Stop();
                     return true;
                 }
             }
             return false;
         }
-  
+
         private bool CollideDori(Player neco, Dori dori)
         {
            
@@ -175,20 +246,43 @@ namespace FlappyGame
 
         private void OnPaint(object sender, PaintEventArgs e)
         {
+            
             Graphics graphic = e.Graphics;
-            graphic.DrawImage(neco.necoImg, neco.x, neco.y, neco.size, neco.size);
-            graphic.DrawImage(wall.wallsImg,wall.x,wall.y, wall.sizeX, wall.sizeY);
-            graphic.DrawImage(wall2.wallsImg, wall2.x, wall2.y, wall2.sizeX, wall2.sizeY);
-            graphic.DrawImage(dori.DoriImg, dori.x, dori.y, dori.sizeDori, dori.sizeDori);
+            //if (this.BackgroundImage != null)
+            //    graphic.DrawImage(this.BackgroundImage, 0, 0, this.Width, this.Height);
 
+            graphic.DrawImage(neco.necoImg, neco.x, neco.y, neco.size, neco.size);
+           
+            graphic.DrawImage(dori.DoriImg, dori.x, dori.y, dori.sizeDori, dori.sizeDori);
+                       
+                NecoLabel.Text = $"NecoScore: {neco.score}";
+                      
+            
+            foreach (var wall in walls)
+            {
+                if (wall.wallsImgTop != null)
+                    graphic.DrawImage(wall.wallsImgTop, wall.x, 0, wall.width, wall.heightTop);
+                if (wall.wallsImgBottom != null)
+                    graphic.DrawImage(wall.wallsImgBottom, wall.x, this.Height - wall.heightBottom, wall.width,   wall.heightBottom);
+            }
+            
         }
 
+       
         private void PlayClick(object sender, EventArgs e)
         {
             if (neco.isAlive)
             {
                 gravity = 0;
                 neco.gravityValue = -0.120f;
+            }
+        }
+        private void PlayDoubleClick(object sender, EventArgs e)
+        {
+            if (neco.isAlive)
+            {
+                gravity = 0;
+                neco.gravityValue = -0.240f;
             }
         }
     }

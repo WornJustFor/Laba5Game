@@ -20,7 +20,7 @@ namespace FlappyGame
         public Dori(int x, int y)
         {
             string projectDirectory = Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(baseDirectory).FullName).FullName).FullName).FullName;
-            string imagePath = Path.Combine(projectDirectory, "Arts", "coin.jpg");
+            string imagePath = Path.Combine(projectDirectory, "Arts", "coin.png");
 
             if (File.Exists(imagePath))
             {

@@ -39,7 +39,7 @@ namespace FlappyGame
            Random rand = new Random();
             this.heightTop = rand.Next(50, screenHeight - 300); 
             this.heightBottom = (screenHeight - heightTop - 150); 
-            
+            //if (isRotatedImage) { wallsImg.RotateFlip(RotateFlipType.Rotate180FlipX); }
 
         }
 

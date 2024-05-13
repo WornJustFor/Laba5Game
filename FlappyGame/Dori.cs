@@ -10,7 +10,7 @@ namespace FlappyGame
     {
         public float x;
         public float y;
-
+        string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
         public int sizeDori;
       
         public Image DoriImg;
@@ -19,10 +19,20 @@ namespace FlappyGame
 
         public Dori(int x, int y)
         {
-            DoriImg = new Bitmap("C:\\Users\\User\\Desktop\\Новая папка\\прга учеба\\FlappyGame\\Arts\\necoarc.jpg");
+            string projectDirectory = Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(baseDirectory).FullName).FullName).FullName).FullName;
+            string imagePath = Path.Combine(projectDirectory, "Arts", "coin.jpg");
+
+            if (File.Exists(imagePath))
+            {
+                DoriImg = new Bitmap(imagePath);
+            }
+            else
+            {
+                MessageBox.Show("File not found: " + imagePath);
+            }
             this.x = x;
             this.y = y;
-            sizeDori = 50;          
+            sizeDori = 30;          
             
 
         }

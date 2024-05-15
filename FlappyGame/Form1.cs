@@ -1,4 +1,4 @@
-using System.Diagnostics;//Диагностика убрать
+
 using System.Timers;
 namespace FlappyGame
 {
@@ -38,7 +38,7 @@ namespace FlappyGame
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка при загрузке изображения: " + ex.Message);
+                MessageBox.Show("ГЋГёГЁГЎГЄГ  ГЇГ°ГЁ Г§Г ГЈГ°ГіГ§ГЄГҐ ГЁГ§Г®ГЎГ°Г Г¦ГҐГ­ГЁГї: " + ex.Message);
             }
         }
 

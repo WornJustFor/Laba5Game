@@ -7,8 +7,9 @@ namespace FlappyGame
        
         private Label NecoLabel;
         internal int nMovementSpeed = 2;
-        List<Walls> walls = new List<Walls>();      
-        
+        List<Walls> walls = new List<Walls>();
+        private Button easyButton;
+        private Button hardButton;
         Player neco;            
         Dori dori;
         float gravity;
@@ -18,8 +19,7 @@ namespace FlappyGame
         {
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string projectDirectory = Directory.GetParent(Directory.GetParent(Directory.GetParent(Directory.GetParent(baseDirectory).FullName).FullName).FullName).FullName;
-            string imagePath = Path.Combine(projectDirectory, "Arts", "nebo.jpg");
-            //MessageBox.Show( imagePath);
+            string imagePath = Path.Combine(projectDirectory, "Arts", "nebo.jpg");            
             return imagePath;
         }
         private async Task<Bitmap> LoadImageAsync(string filePath)
@@ -38,20 +38,52 @@ namespace FlappyGame
             }
             catch (Exception ex)
             {
-                MessageBox.Show("ÃŽÃ¸Ã¨Ã¡ÃªÃ  Ã¯Ã°Ã¨ Ã§Ã Ã£Ã°Ã³Ã§ÃªÃ¥ Ã¨Ã§Ã®Ã¡Ã°Ã Ã¦Ã¥Ã­Ã¨Ã¿: " + ex.Message);
+                MessageBox.Show("Îøèáêà ïðè çàãðóçêå èçîáðàæåíèÿ: " + ex.Message);
             }
         }
 
         public Form1()
         {
-            InitializeComponent();
-           // string ImgPath = CheckImg();
+            InitializeComponent();          
             this.DoubleBuffered = true;
-            //InitBackImg();
-            //this.BackgroundImage = InitBackImg();
+                      
             InitBackImg();
             this.BackgroundImageLayout=ImageLayout.Center;
+            
+            InitMenu();
+            
 
+            NecoLabel = new Label { Location = new System.Drawing.Point(10, 10), Text = "NecoScore: 0" };
+            this.Controls.Add(NecoLabel);
+            
+        }
+
+        public void InitMenu()
+        {
+            easyButton = new Button { Text = "Easy", Location = new Point(Width / 2 - 50, Height / 2 - 50) };
+            hardButton = new Button { Text = "Hard", Location = new Point(Width / 2 + 50, Height / 2 - 50) };
+
+            easyButton.Click += EasyButton_Click;
+            hardButton.Click += HardButton_Click;
+
+            this.Controls.Add(easyButton);
+            this.Controls.Add(hardButton);
+        }
+        private void EasyButton_Click(object sender, EventArgs e)
+        {
+            nMovementSpeed = 2; 
+            StartGame();
+        }
+
+        private void HardButton_Click(object sender, EventArgs e)
+        {
+            nMovementSpeed = 5; 
+            StartGame();
+        }
+        private void StartGame()
+        {
+            this.Controls.Remove(easyButton);
+            this.Controls.Remove(hardButton);
 
             InitPlayer();
             InitWalls();
@@ -60,16 +92,10 @@ namespace FlappyGame
             timer1.Interval = 5;
             timer1.Tick += new EventHandler(update);
             timer1.Start();
-            
-            NecoLabel = new Label { Location = new System.Drawing.Point(10, 10), Text = "NecoScore: 0" };
-            this.Controls.Add(NecoLabel);
-            
         }
-
-
         public void InitPlayer()
         {
-            neco = new Player(Left+50, 200);
+            neco = new Player(Left, 200);
               
            
         }
@@ -93,9 +119,12 @@ namespace FlappyGame
                 {
                     neco.isAlive = false;                
                     timer1.Stop();
-                InitPlayer();
-                InitWalls();
-                }
+               // InitPlayer();
+               // InitWalls();
+                this.Text = "Game Over";
+
+               
+            }
 
              
             if (CollideDori(neco, dori))
@@ -248,14 +277,20 @@ namespace FlappyGame
         {
             
             Graphics graphic = e.Graphics;
-            //if (this.BackgroundImage != null)
-            //    graphic.DrawImage(this.BackgroundImage, 0, 0, this.Width, this.Height);
 
-            graphic.DrawImage(neco.necoImg, neco.x, neco.y, neco.size, neco.size);
-           
-            graphic.DrawImage(dori.DoriImg, dori.x, dori.y, dori.sizeDori, dori.sizeDori);
-                       
+            if (neco != null && neco.necoImg != null)
+            {
+                graphic.DrawImage(neco.necoImg, neco.x, neco.y, neco.size, neco.size);
+            }
+
+            if (dori != null && dori.DoriImg != null)
+            {
+                graphic.DrawImage(dori.DoriImg, dori.x, dori.y, dori.sizeDori, dori.sizeDori);
+            }
+            if (neco != null && neco.necoImg != null)
+            {
                 NecoLabel.Text = $"NecoScore: {neco.score}";
+            }
                       
             
             foreach (var wall in walls)
@@ -271,7 +306,7 @@ namespace FlappyGame
        
         private void PlayClick(object sender, EventArgs e)
         {
-            if (neco.isAlive)
+            if (neco != null && neco.isAlive)
             {
                 gravity = 0;
                 neco.gravityValue = -0.120f;
@@ -279,7 +314,7 @@ namespace FlappyGame
         }
         private void PlayDoubleClick(object sender, EventArgs e)
         {
-            if (neco.isAlive)
+            if (neco != null && neco.isAlive)
             {
                 gravity = 0;
                 neco.gravityValue = -0.240f;

@@ -49,7 +49,10 @@ namespace FlappyGame
                       
             InitBackImg();
             this.BackgroundImageLayout=ImageLayout.Center;
-            
+            this.ControlBox = true;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             InitMenu();
             
 
@@ -95,7 +98,7 @@ namespace FlappyGame
         }
         public void InitPlayer()
         {
-            neco = new Player(Left, 200);
+            neco = new Player(050, 200);
               
            
         }
@@ -110,7 +113,7 @@ namespace FlappyGame
         }
         public void InitDori() {
             Random rPosy = new Random();
-            int Posy = rPosy.Next(-200, 000);
+            int Posy = rPosy.Next(000, 100);
             dori = new Dori(Posy + 100, 200); }
         private void update(object sender, EventArgs e)
         {
